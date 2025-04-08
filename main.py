@@ -18,3 +18,11 @@ def preprocess_and_load_data(filepath):
     df = pd.read_csv(filepath)
     df['date'] = pd.read_csv(filepath)
     return df
+
+# sentiment labeling & analysis (using NLTK VADER)
+def add_sentiment_labels(df):
+    # adds sentiment labels to DataFrame using NLTK's VADER
+    # labels -> based on compound score from VADER
+    # >= 0.05 (POS.), <= 0.05 (NEG.), otherwise (NEUTR.)
+    sid = SentimentIntensityAnalyzer()
+    
