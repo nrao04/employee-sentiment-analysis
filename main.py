@@ -26,3 +26,17 @@ def add_sentiment_labels(df):
     # >= 0.05 (POS.), <= 0.05 (NEG.), otherwise (NEUTR.)
     sid = SentimentIntensityAnalyzer()
     
+    # helper funct. to deter. sentiment from text
+    def get_sentiment(text):
+        # use VADER to calc. polarity scores
+        scores = sid.polarity_scores(text)
+        # compound score rep overall sentiment
+        compound = scores['compound']
+        # text -> pos., neg., or netur.
+        if compound >= 0.05:
+            return 'POSITIVE'
+        elif compound <= -0.05:
+            return 'NEGATIVE'
+        else:
+            return 'NEUTRAL'
+        
