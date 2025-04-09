@@ -177,6 +177,8 @@ def main():
     
     # run exp. data analysis (task 2)
     run_eda(df)
+    plot_monthly_message_frequency(df)
+    plot_monthly_average_sentiment(df)
     
     # calc. empl. monthly sent. scores (task 3)
     monthly_scores = calculate_employee_scores(df)
