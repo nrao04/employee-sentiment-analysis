@@ -57,6 +57,17 @@ class TestEmployeeSentimentAnalysis(unittest.TestCase):
         sentiments = set(df_labeled['sentiment'].str.lower().unique())
         self.assertTrue(sentiments.issubset({'positive', 'negative', 'neutral'}))
     
+    def test_run_eda_creates_file(self):
+        # ensure the 'visualization' folder exists
+        if not os.path.exists("visualization"):
+            os.makedirs("visualization")
+        # add sentiment labels so that 'sentiment' column exists for plotting
+        df_labeled = add_sentiment_labels(self.df_sample.copy())
+        run_eda(df_labeled)
+        self.assertTrue(os.path.exists("visualization/sentiment_distribution.png"),
+                        "plot file not created in visualization folder")
+        os.remove("visualization/sentiment_distribution.png")
+    
     def test_calculate_employee_scores(self):
         # test that monthly employee scores are calculated and the result has required columns
         df_labeled = add_sentiment_labels(self.df_sample.copy())
@@ -92,15 +103,6 @@ class TestEmployeeSentimentAnalysis(unittest.TestCase):
             run_predictive_model(monthly_scores)
         except Exception as e:
             self.fail("run_predictive_model() raised an exception: " + str(e))
-    
-    def test_run_eda_creates_file(self):
-        # test that run_eda creates the expected plot file
-        if not os.path.exists("visualization"):
-            os.makedirs("visualization")
-        run_eda(self.df_sample.copy())
-        self.assertTrue(os.path.exists("visualization/sentiment_distribution.png"),
-                        "plot file not created in visualization folder")
-        os.remove("visualization/sentiment_distribution.png")
 
 if __name__ == '__main__':
     unittest.main()
