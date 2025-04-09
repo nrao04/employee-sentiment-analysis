@@ -160,6 +160,6 @@ def main():
     # run predictive modeling (task 6)
     run_predictive_model(monthly_scores)
 
-
+# main working smoothly now!
 if __name__ == "__main__":
     main()
