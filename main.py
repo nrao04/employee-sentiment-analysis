@@ -16,6 +16,8 @@ nltk.download('vader_lexicon')
 def preprocess_and_load_data(filepath):
     # reads csv file from filepath and conv. 'date' column into datetime obj.
     df = pd.read_csv(filepath)
+    # print("columns in csv:", df.columns)  # temporary debugging
+    df.rename(columns = {'from': 'employee_id'}, inplace = True)
     df['date'] = pd.to_datetime(df['date'], errors = 'coerce')
     return df
 
