@@ -19,7 +19,7 @@ def preprocess_and_load_data(filepath):
     df['date'] = pd.read_csv(filepath)
     return df
 
-# sentiment labeling & analysis (using NLTK VADER)
+# [TASK 1: Sentiment Labeling & Analysis] (using NLTK VADER)
 def add_sentiment_labels(df):
     # adds sentiment labels to DataFrame using NLTK's VADER
     # labels -> based on compound score from VADER
@@ -52,3 +52,13 @@ def add_sentiment_labels(df):
     
     # return modified DataFrame with new columns
     return df
+
+# [TASK 2: Exploratory Data Analysis (EDA)]
+def run_eda(df):
+    # generates & saves visualizations from dataset
+    # (countplot for sentiment distrib. & chart saved in visual. folder)
+    plt.figure(figsize = (8,5))
+    sns.countplot(x = 'sentiment', data = df)
+    plt.title("Sentiment Distribution")
+    plt.savefig("visualization/sentiment_distribution.png")
+    plt.show()
