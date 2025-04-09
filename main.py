@@ -73,3 +73,26 @@ def calculate_employee_scores(df):
     monthly_scores = df_copy.groupby(['employee_id', pd.Grouper(freq = 'M')])['score'].sum().reset_index()
     # returns DataFrame of monthly scores
     return monthly_scores
+
+# [TASK 4: Employee Ranking]
+def rank_employees(monthly_scores):
+    # generates and prints lists of employees per month based on monthly sentiment scores
+    rankings = {}
+    # group by month ('date' column should have month-end timestamps)
+    # for each month -> two lists:
+    for month, group in monthly_scores.groupby('date'):
+        # sort for pos. rank: score descending then employee id ascending
+        top_positive = group.sort_values(by = ['score', 'employee_id'], ascending = [False, True]).head(3)
+        # sort for pos. rank: score acsending then employee id ascending
+        top_negative = group.sort_values(by = ['score', 'employee_id'], ascending = [True, True]).head(3)
+        rankings[month] = {
+            'positive': top_positive,
+            'negative': top_negative
+        }
+        print(f"\nMonth: {month.date()}")
+        print("Top Three Positive Employees:")
+        print(top_positive[['employee_id', 'score']])
+        print("Top Three Negative Employees:")
+        print(top_negative[['employee_id', 'score']])
+    # return dict mapping: month -> ranking
+    return rankings
