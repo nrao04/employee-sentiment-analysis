@@ -118,3 +118,21 @@ def identify_flight_risks(df):
     print("\nFlight Risk Employees: ")
     print(flight_risk_employees)
     return flight_risk_employees
+
+# [TASK 6: Predictive Modeling]
+def run_predictive_model(monthly_scores):
+    # using linear regression model to predict monthly sentiment scores
+    # model utilizes month num. extracted from date as feature
+    monthly_scores['month_num'] = monthly_scores['date'].dt.month
+    x = monthly_scores[['month_num']]
+    y = monthly_scores['score']
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state = 42)
+    # train lin. regr. model & using 'fit' mthod to find best lin. rel. bet. features
+    model = LinearRegression().fit(x_train, y_train)
+    # using trained model t omake predictions on test dataset
+    predictions = model.predict(x_test)
+    # calc. mse to determine model's accuracy (lower mse -> better predictive performance)
+    mse = mean_squared_error(y_test, predictions)
+    # prints mean squared error of model on a test split
+    print("\nPredictive Modeling:")
+    print("Mean Squared Error:", mse)
