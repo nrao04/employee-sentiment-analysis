@@ -62,3 +62,14 @@ def run_eda(df):
     plt.title("Sentiment Distribution")
     plt.savefig("visualization/sentiment_distribution.png")
     plt.show()
+
+# [TASK 3: Employee Score Calculation (ESC)]
+def calculate_employee_scores(df):
+    # calculate monthly sentiment scores per employee
+    # work on copy so original df not overriden
+    df_copy = df.copy()
+    df_copy.set_index('date', inplace = True)
+    # group data by employee & month (using 'date' column) & sum 'score'
+    monthly_scores = df_copy.groupby(['employee_id', pd.Grouper(freq = 'M')])['score'].sum().reset_index()
+    # returns DataFrame of monthly scores
+    return monthly_scores
