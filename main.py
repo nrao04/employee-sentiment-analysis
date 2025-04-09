@@ -16,7 +16,7 @@ nltk.download('vader_lexicon')
 def preprocess_and_load_data(filepath):
     # reads csv file from filepath and conv. 'date' column into datetime obj.
     df = pd.read_csv(filepath)
-    df['date'] = pd.to_datetime(df['date'], error = 'coerce')
+    df['date'] = pd.to_datetime(df['date'], errors = 'coerce')
     return df
 
 # [TASK 1: Sentiment Labeling & Analysis] (using NLTK VADER)
