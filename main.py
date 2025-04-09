@@ -136,3 +136,26 @@ def run_predictive_model(monthly_scores):
     # prints mean squared error of model on a test split
     print("\nPredictive Modeling:")
     print("Mean Squared Error:", mse)
+    
+# main 
+def main():
+    # load data from csv (test.csv)
+    df = preprocess_and_load_data("data/test.csv")
+    
+    # sentiment labeling & analysis (task 1)
+    df = add_sentiment_labels(df)
+    
+    # run exp. data analysis (task 2)
+    run_eda(df)
+    
+    # calc. empl. monthly sent. scores (task 3)
+    monthly_scores = calculate_employee_scores(df)
+    
+    # gener. empl. rankings based on monthly scores (task 4)
+    rankings = rank_employees(monthly_scores)
+    
+    # identify flight risk employees (task 5)
+    flight_risks = identify_flight_risks(df)
+    
+    # run predictive modeling (task 6)
+    run_predictive_model(monthly_scores)
