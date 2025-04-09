@@ -74,6 +74,36 @@ def calculate_employee_scores(df):
     # returns DataFrame of monthly scores
     return monthly_scores
 
+# additional visualization: monthly message frequency
+def plot_monthly_message_frequency(df):
+    # gener. a line plot of monthly message freq.
+    df_copy = df.copy()
+    df_copy.set_index('date', inplace=True)
+    monthly_frequency = df_copy.resample('ME').size()  # using 'ME' for month-end
+    plt.figure(figsize=(10, 6))
+    monthly_frequency.plot(marker='o')
+    plt.title("Monthly Message Frequency")
+    plt.xlabel("Month")
+    plt.ylabel("Number of Messages")
+    plt.tight_layout()
+    plt.savefig("visualization/monthly_message_frequency.png")
+    plt.close()
+
+# additional visualization: monthly average sentiment score
+def plot_monthly_average_sentiment(df):
+    # gener. a bar chart of the average sentiment score per month
+    df_copy = df.copy()
+    df_copy.set_index('date', inplace=True)
+    monthly_avg = df_copy.resample('ME')['score'].mean()
+    plt.figure(figsize=(10, 6))
+    monthly_avg.plot(kind = 'bar', color = 'skyblue')
+    plt.title("Monthly Average Sentiment Score")
+    plt.xlabel("Month")
+    plt.ylabel("Average Score")
+    plt.tight_layout()
+    plt.savefig("visualization/monthly_average_sentiment.png")
+    plt.close()
+
 # [TASK 4: Employee Ranking]
 def rank_employees(monthly_scores):
     # generates and prints lists of employees per month based on monthly sentiment scores
