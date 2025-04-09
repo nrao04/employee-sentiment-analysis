@@ -96,3 +96,25 @@ def rank_employees(monthly_scores):
         print(top_negative[['employee_id', 'score']])
     # return dict mapping: month -> ranking
     return rankings
+
+# [TASK 5: Flight Risk Identification]
+def identify_flight_risks(df):
+    # identifies employees who have sent 4 or more neg. messages (in 30 day per.)
+    # work on copy of dataFrame
+    df_copy = df.copy()
+    if df_copy.index.name != 'date':
+        df_copy.set_index('date', inplace = True)
+    # sort by employee id and date
+    df_copy = df_copy.sort_values(['employee_id', 'date'])
+    
+    # helper funct to group by employee and calc. 30 day roll. sum on neg. messages
+    def rolling_negatives(group):
+        # rolling window of 30 days (using index which is datetime)
+        return group['neg_flag'].rolling('30D').sum()
+    
+    df_copy['neg_rolling_sum'] = df_copy.groupby('employee_id', group_keys = False).apply(rolling_negatives)
+    # flag employees with rolling sum >= 4 as flight risks
+    flight_risk_employees = df_copy[df_copy['neg_rolling_sum'] >= 4]['employee_id'].unique().tolist()
+    print("\nFlight Risk Employees: ")
+    print(flight_risk_employees)
+    return flight_risk_employees
