@@ -40,3 +40,15 @@ def add_sentiment_labels(df):
         else:
             return 'NEUTRAL'
         
+    # apply helper funct. on 'body' column
+    df['sentiment'] = df['body'].astype(str).apply(get_sentiment)
+    
+    # map text sentiment labels to numerical scores
+    score_map = {'POSITIVE': 1, 'NEGATIVE': -1, 'NEUTRAL': 0}
+    df['score'] = df['sentiment'].map(score_map)
+    
+    # create addit. binary column (neg_flag) to indicate negative messages
+    df['neg_flag'] = df['sentiment'].apply(lambda s: 1 if s == 'NEGATIVE' else 0)
+    
+    # return modified DataFrame with new columns
+    return df
